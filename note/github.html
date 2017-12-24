@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>github</title>
+    <style>
+        body{
+            background: #C6F2A7;
+            font-size: 12px;
+        }
+        p,h3{
+            text-indent: 2em;
+            line-height: 2em;
+        }
+    </style>
+</head>
+<body>
+    <h3>集中式版本控制系统(cvs/svn) VS 分布式版本控制系统(Git)</h3>
+    <hr>
+    <p>
+        集中式版本控制系统：版本库集中存放在中央服务器，需要先从中央服务器中取得最新版本，然后进行修改，修改完成再上传给中央服务器。文件大-->commit速度慢
+    </p>
+    <p>
+        分布式版本控制系统：没有“中央服务器”，每个人的电脑上都是一个完整的版本库，多人协作只需把各自的修改推送给对方。分布式版本控制的每个节点都是完整仓库。分布式版本控制系统通常也有一台充当“中央服务器”的电脑，但这个服务器的作用仅仅是用来方便“交换”大家的修改，没有它大家也一样干活，只是交换修改不方便而已。
+    </p>
+    <p>
+        两者比较：分布式本地仓库包含代码库还有历史库，在本地的环境开发就可以记录历史；而集中式的历史库存在于中央仓库，每次对比与提交代码都必须连接到中央仓库才能进行；分布式比集中式安全性更高。
+    </p>
+    <h3>github 安装与配置与命令</h3>
+    <hr>
+    <p style="white-space:pre">
+        <a href="https://git-for-windows.github.io/">下载网址</a>
+        <a href="http://www.cnblogs.com/schaepher/p/5561193.html">教程参考网址</a>
+    </p>
+    <p>
+        下载安装包-->默认安装-->安装完成，打开“Git”->“Git Bash”，跳出命令行窗口-->安装成功，配置：$ git config --global user.name "Your Name"以及$ git config --global user.email "email@example.com"
+    </p>
+    <p style="white-space:pre">
+        命令：
+        git init ———— 初始化仓库
+        git status ———— 查看当前状态
+        git diff ———— 查看当前状态和最新的commit之间不同的地方
+        git add -A ———— 添加文件，在commit之前add
+        git checkout -- . ———— 撤回stage的东西，这里用小数点表示撤回所有修改，在--的前后都有空格
+        git commit -m "提交信息" ———— 提交，提交信息最好能体现更改了什么
+        git	clean -xf ————	删除当前目录下所有没有track过的文件，不管它是否是.gitignore文件里面指定的文件夹和文件
+        git	log	———— 查看提交记录，查看当前版本及之前的commit记录
+        git reflog ———— HEAD的变更记录
+        git reset --hard 版本号 ———— 回退到指定版本号的版本，版本号取前7位就行，该版本之后的修改都被删除。同时也是通过这个命令回到最新版本。需要reflog配合
+        git config --global user.name "你的用户名" ———— 设置用户名	
+        git config --global user.email "你的邮箱" ———— 设置邮箱	
+        ssh-keygen -t rsa -C "你的邮箱" ———— 生成ssh key
+        git remote add origin 你复制的地址 ———— 添加远程仓库,设置origin
+        git push -u origin master ———— 上传并指定默认，指定origin为默认主机，以后push默认上传到origin上
+        git push ———— 提交到远程仓库，将当前分支增加的commit提交到远程仓库
+        git pull ———— 从远程仓库同步，在本地版本低于远程仓库版本的时候，获取远程仓库的commit
+        git config --global core.quotepath false ———— 解决文件中文名乱码问题
+        git remote rm origin ———— 删除远程仓库
+    </p>
+    <p style="white-space:pre;">
+        本地上传至github：
+        1.git init
+        2.git add -A
+        3.git commit -m "..."
+        4.在Github上创建自己的repository
+        5.git remote add origin 地址（如果fatal:remote origin already exists，就先git remote rm origin）
+        6.git push -u origin master
+        7.这里的master是Github默认的分支，如果你本地的当前分支不是master，就用git checkout master命令切换到master分支
+    </p>
+    <p style="white-space:pre;">
+        本地git与github连接：
+        1.配置用户名和邮箱
+            git config --global user.name "你的用户名"
+            git config --global user.email "你的邮箱"
+        2.生成ssh key
+            ssh-keygen -t rsa -C "你的邮箱"
+            将生成的ssh key复制到剪贴板，执行 clip < ~/.ssh/id_rsa.pub
+        3.打开Github，进入Settings
+            点击左边的 SSH and GPG keys ，将ssh key粘贴到右边的Key里面
+            点击下面的 Add SSH key 就添加成功了
+            执行 ssh -T git@github.com，测试一下、
+        其他操作：
+        1.将远程仓库和本地仓库关联起来
+            先到Github上复制远程仓库的SSH地址
+            运行 git remote add origin 你复制的地址
+            如果你在创建 repository 的时候，加入了 README.md 或者 LICENSE ，那么 github 会拒绝你的 push 。你需要先执行 git pull origin master。
+            执行 git push -u origin master 将本地仓库上传至Github的仓库并进行关联
+            关联已经完成！
+            以后想在commit后同步到Github上，只要直接执行 git push 就行
+        2.获取其他人的远程仓库
+            git clone 复制的SSH地址
+</body>
+</html>
